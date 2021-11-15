@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebBlog.Data;
+using WebBlog.Data.Models;
 
 namespace WebBlog.Configurate
 {
@@ -19,7 +20,7 @@ namespace WebBlog.Configurate
                     configuration.GetConnectionString("DefaultConnection")));
             serviceCollection.AddDatabaseDeveloperPageExceptionFilter();
 
-            serviceCollection.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            serviceCollection.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             serviceCollection.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
