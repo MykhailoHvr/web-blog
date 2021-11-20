@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using WebBlog.Authorization;
 using WebBlog.BusinessManager;
 using WebBlog.BusinessManager.Interfaces;
 using WebBlog.Data;
@@ -27,13 +26,21 @@ namespace WebBlog.Configurate
             serviceCollection.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             serviceCollection.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            serviceCollection.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
         }
 
         public static void AddCustomServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<IBlogBusinessManager, BlogBusinessManager>();
+            serviceCollection.AddScoped<IAdminBusinessManager, AdminBusinessManager>();
 
             serviceCollection.AddScoped<IBlogService, BlogService>();
+        }
+
+        public static void AddCustomAuthorization(this IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddTransient<IAuthorizationHandler, BlogAuthoriazationHandler>();
         }
     }
 }

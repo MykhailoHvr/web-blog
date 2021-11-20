@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using WebBlog.Data;
 using WebBlog.Data.Models;
 using WebBlog.Service.Interfaces;
@@ -12,9 +15,31 @@ namespace WebBlog.Service
         {
             this.applicationDbContext = applicationDbContext;
         }
+
+        public Blog GetBlog(int blogId)
+        {
+            return applicationDbContext.Blogs.FirstOrDefault(blog => blog.Id == blogId);
+        }
+
+        public IEnumerable<Blog> GetBlogs(ApplicationUser applicationUser)
+        {
+            return applicationDbContext.Blogs
+                .Include(blog => blog.Creator)
+                .Include(blog => blog.Approver)
+                .Include(blog => blog.Posts)
+                .Where(blog => blog.Creator == applicationUser);
+        }
+
         public async Task<Blog> Add(Blog blog)
         {
             applicationDbContext.Add(blog);
+            await applicationDbContext.SaveChangesAsync();
+            return blog;
+        }
+
+        public async Task<Blog> Update(Blog blog)
+        {
+            applicationDbContext.Update(blog);
             await applicationDbContext.SaveChangesAsync();
             return blog;
         }

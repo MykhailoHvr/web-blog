@@ -24,6 +24,7 @@ namespace WebBlog
         {
             services.AddDefaultServices(Configuration);
             services.AddCustomServices();
+            services.AddCustomAuthorization();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
