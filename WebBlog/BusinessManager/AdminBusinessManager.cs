@@ -11,12 +11,12 @@ namespace WebBlog.BusinessManager
     public class AdminBusinessManager : IAdminBusinessManager
     {
         private UserManager<ApplicationUser> userManager;
-        private IBlogService blogService;
+        private IPostService postService;
 
-        public AdminBusinessManager(UserManager<ApplicationUser> userManager, IBlogService blogService)
+        public AdminBusinessManager(UserManager<ApplicationUser> userManager, IPostService postService)
         {
             this.userManager = userManager;
-            this.blogService = blogService;
+            this.postService = postService;
         }
 
         public async Task<IndexViewModel> GetAdminDashboard(ClaimsPrincipal claimPrincipal)
@@ -24,7 +24,7 @@ namespace WebBlog.BusinessManager
             var applicationUser = await userManager.GetUserAsync(claimPrincipal);
             return new IndexViewModel
             {
-                Blogs = blogService.GetBlogs(applicationUser)
+                Posts = postService.GetPosts(applicationUser)
             };
         }
     }

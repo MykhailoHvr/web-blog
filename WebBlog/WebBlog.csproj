@@ -25,4 +25,8 @@
     <ProjectReference Include="..\WebBlog.Service\WebBlog.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\UserFiles\" />
+  </ItemGroup>
+
 </Project>

@@ -11,7 +11,7 @@ namespace WebBlog.Data
         {
         }
 
+        public DbSet<Comment> Comments { get; set; }
         public DbSet<Post> Posts { get; set; }
-        public DbSet<Blog> Blogs { get; set; }
     }
 }

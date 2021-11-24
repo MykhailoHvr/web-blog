@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WebBlog.BusinessManager.Interfaces;
-using WebBlog.Models.BlogViewModels;
+using WebBlog.Models.PostViewModels;
 
 namespace WebBlog.Controllers
 {
-    public class BlogController : Controller
+    public class PostController : Controller
     {
-        private readonly IBlogBusinessManager blogBusinessManager;
-        public BlogController(IBlogBusinessManager blogBusinessManager)
+        private readonly IPostBusinessManager postBusinessManager;
+        public PostController(IPostBusinessManager postBusinessManager)
         {
-            this.blogBusinessManager = blogBusinessManager;
+            this.postBusinessManager = postBusinessManager;
         }
 
         public IActionResult Index()
@@ -25,7 +25,7 @@ namespace WebBlog.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
-            var actionResult = await blogBusinessManager.GetEditViewModel(id, User);
+            var actionResult = await postBusinessManager.GetEditViewModel(id, User);
 
             if (actionResult.Result is null)
             {
@@ -38,18 +38,18 @@ namespace WebBlog.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(CreateViewModel createViewModel)
         {
-            await blogBusinessManager.CreateBlog(createViewModel, User);
+            await postBusinessManager.CreatePost(createViewModel, User);
             return RedirectToAction("Create");
         }
 
         [HttpPost]
         public async Task<IActionResult> Update(EditViewModel editBlogViewModel)
         {
-            var actionResult = await blogBusinessManager.UpdateBlog(editBlogViewModel, User);
+            var actionResult = await postBusinessManager.UpdatePost(editBlogViewModel, User);
 
             if (actionResult.Result is null)
             {
-                return RedirectToAction("Edit", new { editBlogViewModel.Blog.Id });
+                return RedirectToAction("Edit", new { editBlogViewModel.Post.Id });
             }
 
             return actionResult.Result;
