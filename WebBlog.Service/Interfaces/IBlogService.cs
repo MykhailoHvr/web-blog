@@ -10,5 +10,6 @@ namespace WebBlog.Service.Interfaces
         IEnumerable<Blog> GetBlogs(ApplicationUser applicationUser);
         Blog GetBlog(int blogId);
         Task<Blog> Update(Blog blog);
+        IEnumerable<Blog> GetBlogs(string searchString);
     }
 }
