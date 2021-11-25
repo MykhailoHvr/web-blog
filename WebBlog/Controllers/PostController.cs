@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WebBlog.BusinessManager.Interfaces;
 using WebBlog.Models.PostViewModels;
 
 namespace WebBlog.Controllers
 {
+    [Authorize]
     public class PostController : Controller
     {
         private readonly IPostBusinessManager postBusinessManager;
@@ -13,9 +15,18 @@ namespace WebBlog.Controllers
             this.postBusinessManager = postBusinessManager;
         }
 
-        public IActionResult Index()
+        //[Route("Post/{id}"), AllowAnonymous]
+        [AllowAnonymous]
+        public async Task<IActionResult> Index(int? id)
         {
-            return View();
+            var actionResult = await postBusinessManager.GetPostViewModel(id, User);
+
+            if (actionResult.Result is null)
+            {
+                return View(actionResult.Value);
+            }
+
+            return actionResult.Result;
         }
 
         public IActionResult Create()
