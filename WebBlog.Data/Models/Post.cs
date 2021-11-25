@@ -7,11 +7,20 @@ namespace WebBlog.Data.Models
     public class Post
     {
         public int Id { get; set; }
+        public ApplicationUser Creator { get; set; }
 
-        public Blog Blog { get; set; }
-        public ApplicationUser Poser { get; set; }
+        [Required]
+        public string Title { get; set; }
+
+        [Required]
         public string Content { get; set; }
-        public Post Parent { get; set; }
         public DateTime CreatedOn { get; set; }
+        public DateTime UpdatedOn { get; set; }
+        public bool Published { get; set; }
+
+        public bool Appproved { get; set; }
+        public ApplicationUser Approver { get; set; }
+
+        public virtual IEnumerable<Comment> Comments { get; set; }
     }
 }
