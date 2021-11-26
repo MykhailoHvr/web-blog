@@ -18,18 +18,25 @@
 <body>
     @await Component.InvokeAsync("Navigation")
 
-   
+
     <header class="masthead" style="background-image: url('@ViewData["HeaderImage"]')">
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="site-heading">
                         <h1>@ViewData["HeaderTitle"]</h1>
+                        @if (ViewData["SubHeader"] is null) 
+                        { 
                         <span class="subheading">
                             Posted by
-                            <a href="#">@ViewData["AuthorName"]</a>
+                            <a asp-controller="Home" asp-action="Author" asp-route-authorId="@ViewData["AuthorId"]">@ViewData["AuthorName"]</a>
                             on @ViewData["PostDate"]
                         </span>
+                        }
+                        else
+                        {
+                            <span class="subheading">@ViewData["SubHeader"]</span>
+                        }
                     </div>
                 </div>
             </div>

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using WebBlog.Data;
 using WebBlog.Data.Models;
 using WebBlog.Service.Interfaces;
@@ -12,6 +13,13 @@ namespace WebBlog.Service
         {
             this.applicationDbContext = applicationDbContext;
         }
+
+        public ApplicationUser Get(string id)
+        {
+            return applicationDbContext.Users
+                .FirstOrDefault(user => user.Id == id);
+        }
+
 
         public async Task<ApplicationUser> Update(ApplicationUser applicationUser)
         {

@@ -43,6 +43,7 @@ namespace WebBlog.BusinessManager
 
             return new AboutViewModel
             {
+                ApplicationUser = applicationUser,
                 SubHeader = applicationUser.SubHeader,
                 Content = applicationUser.AboutContent
             };
